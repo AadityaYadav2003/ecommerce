@@ -4,6 +4,7 @@ import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/models/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -21,10 +22,10 @@ class _CartPageState extends State<CartPage> {
       builder: (context) => AlertDialog(
         content: const Text("Remove this item from your cart?"),
         actions: [
-          // cancle button
+          // cancel button
           MaterialButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancle"),
+            child: const Text("Cancel"),
           ),
 
           // yes button
@@ -33,10 +34,10 @@ class _CartPageState extends State<CartPage> {
               // pop dialog box
               Navigator.pop(context);
 
-              //  add to cart
+              // remove from cart
               context.read<Shop>().removeFromCart(product);
             },
-            child: const Text("yes"),
+            child: const Text("Yes"),
           ),
         ],
       ),
@@ -44,14 +45,18 @@ class _CartPageState extends State<CartPage> {
   }
 
   // user pressed the pay button
-  void payButtonPressed(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialog(
-        content:
-            Text("User wants to pay ! Connect this to your payment backend"),
-      ),
-    );
+  void payButtonPressed(BuildContext context) async {
+    const url = 'https://embroiderydesignshop.in/Product/PaymentCheckout';
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: true,
+        forceWebView: true,
+        enableJavaScript: true,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -60,57 +65,59 @@ class _CartPageState extends State<CartPage> {
     final cart = context.watch<Shop>().cart;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('Cart Page'),
-        ),
-        drawer: const MyDrawer(),
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Column(
-          children: [
-            // cart list
-            Expanded(
-  child: cart.isEmpty
-      ? const Center(child: Text("Your cart is empty..."))
-      : ListView.builder(
-          itemCount: cart.length,
-          itemBuilder: (context, index) {
-            // Get individual item in cart
-            final item = cart[index];
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Cart Page'),
+      ),
+      drawer: const MyDrawer(),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Column(
+        children: [
+          // cart list
+          Expanded(
+            child: cart.isEmpty
+                ? const Center(child: Text("Your cart is empty..."))
+                : ListView.builder(
+                    itemCount: cart.length,
+                    itemBuilder: (context, index) {
+                      // Get individual item in cart
+                      final item = cart[index];
 
-            // Return as a cart tile UI
-            return ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  "http://ecommerce.raviva.in/productimage/${item.image!}",
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: Text(item.productName!),
-              subtitle: Text(item.price!),
-              trailing: IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () => removeItemFromCart(context, item),
-              ),
-            );
-          },
-        ),
-),
+                      // Return as a cart tile UI
+                      return ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            "http://ecommerce.raviva.in/productimage/${item.image!}",
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        title: Text(item.productName!),
+                        subtitle: Text(item.price!),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () => removeItemFromCart(context, item),
+                        ),
+                      );
+                    },
+                  ),
+          ),
 
-            // pay button
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MyButton(
-                  text: "PAY NOW",
-                  onTap: () => Navigator.pushNamed(context, '/phone'),
-                  child: const Text("PAY NOW")),
-            )
-          ],
-        ));
+          // pay button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MyButton(
+              text: "PAY NOW",
+              onTap: () => payButtonPressed(context),
+              child: const Text("PAY NOW"),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
