@@ -4,7 +4,6 @@ import 'package:ecommerce/pages/category_page.dart';
 import 'package:ecommerce/pages/forgotpassword_page.dart';
 import 'package:ecommerce/pages/phone_payement.dart';
 import 'package:ecommerce/pages/profile_page.dart';
-import 'package:ecommerce/pages/razorpay.dart';
 import 'package:ecommerce/pages/register_page.dart';
 import 'package:ecommerce/pages/shop_page.dart';
 import 'package:ecommerce/pages/intro_page.dart';
