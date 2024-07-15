@@ -42,6 +42,7 @@ dependencies:
   email_validator:
   image_picker:
   crypto:
+  badges: ^3.1.2
   url_launcher: ^6.3.0
   phonepe_payment_sdk: ^2.0.2
 

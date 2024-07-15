@@ -1,6 +1,7 @@
 import 'package:ecommerce/models/shop.dart';
 import 'package:ecommerce/pages/cart_page.dart';
 import 'package:ecommerce/pages/category_page.dart';
+import 'package:ecommerce/pages/contact_page.dart';
 import 'package:ecommerce/pages/forgotpassword_page.dart';
 import 'package:ecommerce/pages/phone_payement.dart';
 import 'package:ecommerce/pages/profile_page.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         '/category_page': (context) => const CategoryPage(),
         '/sub_category': (context) => const SubCategory(),
         '/phone': (context) => const PaymentScreen(),
+        '/contact': (context) => const ContactPage(),
       },
     );
   }

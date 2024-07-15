@@ -92,7 +92,6 @@ class _LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => const ShopPage()),
           );
           print('Login Using API');
-
         } else {
           print('Login failed with status code: ${response.statusCode}');
         }
@@ -119,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //   logo
+                // logo
                 Icon(
                   Icons.person,
                   size: 80,
@@ -130,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 25,
                 ),
 
-                //   app name
+                // app name
                 const Text(
                   "M I N I M A L",
                   style: TextStyle(fontSize: 20),
@@ -140,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                 ),
 
-                //   emailtextfield
+                // email textfield
                 MyTextField(
                   hintText: "Email",
                   obscureText: false,
@@ -151,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
 
-                //   password textfield
+                // password textfield
                 MyTextField(
                   hintText: "Password",
                   obscureText: true,
@@ -162,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
 
-                //   forgot text-field
+                // forgot password
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -170,10 +169,9 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () =>
                           Navigator.pushNamed(context, '/forgotpassword_page'),
                       child: Text(
-                        "Forgot Password ?",
+                        "Forgot Password?",
                         style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.inversePrimary),
+                            color: Theme.of(context).colorScheme.inversePrimary),
                       ),
                     ),
                   ],
@@ -183,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 25,
                 ),
 
-                //   sign in button
+                // sign in button
                 MyButton(
                   text: "Login",
                   onTap: _isLogginIn ? null : _login,
@@ -194,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 25,
                 ),
 
-                //   don't have account? Register here
+                // don't have account? Register here
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

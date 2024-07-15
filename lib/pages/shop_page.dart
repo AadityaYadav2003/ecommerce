@@ -4,6 +4,8 @@ import 'package:ecommerce/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/models/product.dart';
+import 'package:ecommerce/models/shop.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -40,10 +42,31 @@ class _ShopPageState extends State<ShopPage> {
                 Provider.of<ThemeProvider>(context, listen: false)
                     .toggleTheme();
               },
-              icon: const Icon(Icons.light_mode)),
-          IconButton(
-              onPressed: () => Navigator.pushNamed(context, '/cart_page'),
-              icon: const Icon(Icons.shopping_cart_outlined))
+              icon: const Icon(
+                Icons.light_mode,
+                size: 30,
+              )),
+          Consumer<Shop>(
+            builder: (context, shop, child) {
+              return IconButton(
+                onPressed: () => Navigator.pushNamed(context, '/cart_page'),
+                icon: badges.Badge(
+                  showBadge: shop.cart.isNotEmpty,
+                  badgeContent: Text(
+                    '${shop.cart.length}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  badgeStyle: const badges.BadgeStyle(
+                    badgeColor: Colors.red,
+                  ),
+                  child: const Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 30,
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
       drawer: const MyDrawer(),

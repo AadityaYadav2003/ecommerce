@@ -90,7 +90,19 @@ class _CartPageState extends State<CartPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Cart Page'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Cart Page'),
+            Text(
+              'Items: ${cart.length}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
       drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -101,31 +113,31 @@ class _CartPageState extends State<CartPage> {
             child: cart.isEmpty
                 ? const Center(child: Text("Your cart is empty..."))
                 : ListView.builder(
-              itemCount: cart.length,
-              itemBuilder: (context, index) {
-                // Get individual item in cart
-                final item = cart[index];
+                    itemCount: cart.length,
+                    itemBuilder: (context, index) {
+                      // Get individual item in cart
+                      final item = cart[index];
 
-                // Return as a cart tile UI
-                return ListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      "http://ecommerce.raviva.in/productimage/${item.image!}",
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
+                      // Return as a cart tile UI
+                      return ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            "http://ecommerce.raviva.in/productimage/${item.image!}",
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        title: Text(item.productName!),
+                        subtitle: Text(item.price!),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () => removeItemFromCart(context, item),
+                        ),
+                      );
+                    },
                   ),
-                  title: Text(item.productName!),
-                  subtitle: Text(item.price!),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: () => removeItemFromCart(context, item),
-                  ),
-                );
-              },
-            ),
           ),
 
           // total price
@@ -157,10 +169,10 @@ class _CartPageState extends State<CartPage> {
   void phonepePaymentInit() {
     PhonePePaymentSdk.init(environment, appId, merchantId, enableLogging)
         .then((val) => {
-      setState(() {
-        _result = 'PhonePe SDK Initialized - $val';
-      })
-    })
+              setState(() {
+                _result = 'PhonePe SDK Initialized - $val';
+              })
+            })
         .catchError((error) {
       handleError(error);
       return <dynamic>{};
@@ -175,7 +187,7 @@ class _CartPageState extends State<CartPage> {
 
   void startPGTransaction() async {
     final String transactionId =
-    DateTime.now().millisecondsSinceEpoch.toString();
+        DateTime.now().millisecondsSinceEpoch.toString();
     Map<String, Object> requestData = getRequestData(transactionId);
 
     String body = getBase64Body(requestData);
@@ -262,10 +274,10 @@ class _CartPageState extends State<CartPage> {
               response["code"] == "PAYMENT_SUCCESS" &&
               response["data"]["paymentState"] == "COMPLETED") {
             _paymentStatus =
-            "${response["message"]} \n TransactionId: $transactionId";
+                "${response["message"]} \n TransactionId: $transactionId";
           } else {
             _paymentStatus =
-            "${response["message"]} \n TransactionId: $transactionId";
+                "${response["message"]} \n TransactionId: $transactionId";
           }
         } catch (e) {
           _paymentStatus = "Error : ${e.toString()}";

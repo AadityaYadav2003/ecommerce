@@ -75,7 +75,13 @@ class _MyDrawerState extends State<MyDrawer> {
               MyListTile(
                 text: "CONTACT US",
                 icon: Icons.call,
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  // pop drawer frist
+                  Navigator.pop(context);
+
+                  // go to cart page
+                  Navigator.pushNamed(context, '/contact');
+                },
               ),
             ],
           ),
