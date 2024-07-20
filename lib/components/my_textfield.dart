@@ -17,42 +17,42 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  bool _isObscured = true;
+  bool _obscureText = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _isObscured = widget.obscureText;
+  void togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: widget.controller,
-        obscureText: _isObscured,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          hintText: widget.hintText,
-          suffixIcon: widget.obscureText
-              ? IconButton(
-                  icon: Icon(
-                    _isObscured ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isObscured = !_isObscured;
-                    });
-                  },
-                )
-              : null,
+    return TextField(
+      controller: widget.controller,
+      obscureText: _obscureText && widget.obscureText,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.transparent,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.black),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.black),
+        ),
+        hintText: widget.hintText,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                onPressed: togglePasswordVisibility,
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: _obscureText ? Colors.grey : Colors.black,
+                ),
+              )
+            : null,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       ),
     );
   }

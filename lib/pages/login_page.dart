@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool _isLogginIn = false;
+  bool _isLoggingIn = false;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   // login method
   void _login() async {
     setState(() {
-      _isLogginIn = true;
+      _isLoggingIn = true;
     });
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       setState(() {
-        _isLogginIn = false;
+        _isLoggingIn = false;
       });
       return;
     }
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() {
-      _isLogginIn = false;
+      _isLoggingIn = false;
     });
   }
 
@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                 // sign in button
                 MyButton(
                   text: "Login",
-                  onTap: _isLogginIn ? null : _login,
+                  onTap: _isLoggingIn ? null : _login,
                   child: const Text("Login"),
                 ),
 
