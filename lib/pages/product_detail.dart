@@ -24,12 +24,44 @@ class ProductDetailPage extends StatelessWidget {
                     .toggleTheme();
               },
               icon: const Icon(Icons.light_mode)),
-          IconButton(
-              onPressed: () => Navigator.pushNamed(context, '/cart_page'),
-              icon: const Icon(Icons.shopping_cart_outlined))
+          Consumer<Shop>(
+            builder: (context, shop, child) {
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.pushNamed(context, '/cart_page'),
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                  ),
+                  if (shop.cart.isNotEmpty)
+                    Positioned(
+                      right: 5,
+                      top: 5,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 18,
+                          minHeight: 18,
+                        ),
+                        child: Text(
+                          '${shop.cart.length}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ],
       ),
-      // drawer: MyDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

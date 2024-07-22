@@ -1,15 +1,17 @@
 class Profile {
-  String? image;
-  String? username;
-  String? email;
-  String? mobile;
+  final String? image;
+  final String? username;
+  final String? email;
+  final String? mobile;
 
   Profile({this.image, this.username, this.email, this.mobile});
 
-  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-    image: json['Image']?.toString(),
-    username: json['username']?.toString(),
-    email: json['email']?.toString(),
-    mobile: json['mobile']?.toString(),
-  );
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      image: json['Image'],
+      username: json['username'],
+      email: json['email'],
+      mobile: json['mobile'],
+    );
+  }
 }

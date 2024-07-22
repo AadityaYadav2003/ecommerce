@@ -38,28 +38,38 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> rawData = jsonDecode(response.body)['result'][0];
-      if (rawData.isNotEmpty) {
-        return Profile.fromJson(rawData[0]);
+      final Map<String, dynamic> decodedData = jsonDecode(response.body);
+      final List<dynamic> resultData = decodedData['result'];
+      if (resultData.isNotEmpty && resultData[0] != null) {
+        return Profile.fromJson(resultData[0]);
       } else {
         throw Exception('No profile data found');
       }
     } else {
-      throw Exception(
-          'Failed to fetch profile details. Status code: ${response.statusCode}');
+      throw Exception('Failed to fetch profile details. Status code: ${response.statusCode}');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final email = userProvider.email;
+
+    if (email == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Profile"),
+        ),
+        body: const Center(child: Text('No email provided.')),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
       ),
       body: FutureBuilder<Profile?>(
-        future: _fetchProfileDetails(userProvider.email!),
+        future: _fetchProfileDetails(email),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
