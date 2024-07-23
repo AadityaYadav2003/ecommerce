@@ -15,7 +15,8 @@ class _RegisterPageState extends State<RegisterPage> {
   // text controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpasswordController = TextEditingController();
+  final TextEditingController confirmpasswordController =
+      TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -74,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final response = await http.post(
         Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/register'),
         body: jsonEncode({
-          "username":usernameController.text,
+          "username": usernameController.text,
           "email": emailController.text,
           "password": passwordController.text,
           "dob": dateOfBirthController.text,
