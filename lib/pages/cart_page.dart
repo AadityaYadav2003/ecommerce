@@ -40,7 +40,7 @@ class _CartPageState extends State<CartPage> {
 
               // remove from cart
               context.read<Shop>().removeFromCart(product);
-              setState(() {});  // Refresh the total price
+              setState(() {}); // Refresh the total price
             },
             child: const Text("Yes"),
           ),

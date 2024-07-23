@@ -10,10 +10,11 @@ class Shop extends ChangeNotifier {
   List<Product> get shop => _shop;
   List<Product> get cart => _cart;
 
-  Future<void> fetchProducts() async { 
+  Future<void> fetchProducts() async {
     try {
       // Replace "YOUR_API_ENDPOINT" with the actual endpoint of your API
-      final response = await http.get(Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/result'));
+      final response = await http.get(
+          Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/result'));
 
       if (response.statusCode == 200) {
         final List<dynamic> decodedJson = jsonDecode(response.body);

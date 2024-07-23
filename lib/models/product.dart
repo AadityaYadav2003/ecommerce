@@ -5,13 +5,12 @@ class Product {
   final String? image;
   final String? category;
 
-  Product({
-    this.productName,
-    this.description,
-    this.price,
-    this.image,
-    this.category
-  });
+  Product(
+      {this.productName,
+      this.description,
+      this.price,
+      this.image,
+      this.category});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         productName: json['ProductName']?.toString(),
@@ -20,4 +19,4 @@ class Product {
         image: json['Image']?.toString(),
         category: json['Category'].toString(),
       );
-} 
+}

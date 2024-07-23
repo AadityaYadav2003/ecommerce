@@ -86,7 +86,8 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         if (response.statusCode == 200) {
-          await userProvider.setUser(emailController.text, passwordController.text);
+          await userProvider.setUser(
+              emailController.text, passwordController.text);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const ShopPage()),
@@ -171,7 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary),
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary),
                       ),
                     ),
                   ],

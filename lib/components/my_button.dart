@@ -24,7 +24,8 @@ class MyButton extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         child: Center(
           child: DefaultTextStyle(
-            style: const TextStyle(color: Colors.black), // Set font color to black
+            style:
+                const TextStyle(color: Colors.black), // Set font color to black
             child: child,
           ),
         ),

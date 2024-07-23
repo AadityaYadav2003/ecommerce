@@ -12,13 +12,15 @@ class CategoryPage extends StatefulWidget {
   State<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderStateMixin {
+class _CategoryPageState extends State<CategoryPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   List<Category> _categories = [];
   bool _isLoading = true;
 
   Future<List<Category>> fetchCategories() async {
-    final response = await http.get(Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/category'));
+    final response = await http.get(
+        Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/category'));
 
     if (response.statusCode == 200) {
       final List<dynamic> rawData = json.decode(response.body)['result'][0];
@@ -40,7 +42,8 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
         actions: [
           IconButton(
               onPressed: () {
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
               },
               icon: const Icon(Icons.light_mode)),
           IconButton(
@@ -89,7 +92,9 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
                         return GestureDetector(
                           onTap: () {
                             // Store the selected category globally
-                            context.read<SelectedCategory>().setCategory(category.categoryName ?? '');
+                            context
+                                .read<SelectedCategory>()
+                                .setCategory(category.categoryName ?? '');
                             Navigator.pushNamed(context, '/sub_category');
                           },
                           child: itemDashboard(
@@ -111,37 +116,41 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
   }
 
   itemDashboard(String title, String imageUrl) => Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20), // Rounded corners for the container
-      boxShadow: [
-        BoxShadow(
-          offset: const Offset(0, 5),
-          color: Theme.of(context).primaryColor.withOpacity(.2),
-          spreadRadius: 2,
-          blurRadius: 5,
-        )
-      ],
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), // Rounded corners for the image
-            image: DecorationImage(
-              image: NetworkImage("http://ecommerce.raviva.in/categoryimage/$imageUrl"),
-              fit: BoxFit.cover,
-            ),
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius:
+              BorderRadius.circular(20), // Rounded corners for the container
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 5),
+              color: Theme.of(context).primaryColor.withOpacity(.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+            )
+          ],
         ),
-        const SizedBox(height: 8),
-        Text(title.toUpperCase(), style: Theme.of(context).textTheme.titleMedium),
-      ],
-    ),
-  );
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(20), // Rounded corners for the image
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "http://ecommerce.raviva.in/categoryimage/$imageUrl"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(title.toUpperCase(),
+                style: Theme.of(context).textTheme.titleMedium),
+          ],
+        ),
+      );
 }
 
 class SelectedCategory extends ChangeNotifier {
@@ -154,4 +163,3 @@ class SelectedCategory extends ChangeNotifier {
     notifyListeners();
   }
 }
-

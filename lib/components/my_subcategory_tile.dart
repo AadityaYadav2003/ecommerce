@@ -75,9 +75,11 @@ class _MySubProductTileState extends State<MySubProductTile> {
               height: imageHeight, // Set a fixed height for the image
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(12), // Rounded corners for the image
+                borderRadius:
+                    BorderRadius.circular(12), // Rounded corners for the image
                 image: DecorationImage(
-                  image: NetworkImage("http://ecommerce.raviva.in/categoryimage/${widget.product.image!}"),
+                  image: NetworkImage(
+                      "http://ecommerce.raviva.in/categoryimage/${widget.product.image!}"),
                   fit: BoxFit.cover,
                 ),
               ),

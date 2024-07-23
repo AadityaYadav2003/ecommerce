@@ -26,13 +26,15 @@ class _SubCategoryState extends State<SubCategory> {
 
   Future<List<Product>> fetchProducts() async {
     final categoryName = context.read<SelectedCategory>().category;
-    final response = await http.get(Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/result'));
+    final response = await http.get(
+        Uri.parse('https://ecommercebackend-o2fv.onrender.com/user/result'));
 
     if (response.statusCode == 200) {
       final List<dynamic> rawData = json.decode(response.body)['result'][0];
-      return _products = rawData.map((product) => Product.fromJson(product)).where((product) => product.category == categoryName).toList();
-
-
+      return _products = rawData
+          .map((product) => Product.fromJson(product))
+          .where((product) => product.category == categoryName)
+          .toList();
     } else {
       throw Exception('Failed to load products');
     }
@@ -41,17 +43,18 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     final categoryName = context.watch<SelectedCategory>().category;
-    String a=categoryName;
+    String a = categoryName;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title:  Text(a),
+        title: Text(a),
         actions: [
           IconButton(
               onPressed: () {
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
               },
               icon: const Icon(Icons.light_mode)),
           IconButton(

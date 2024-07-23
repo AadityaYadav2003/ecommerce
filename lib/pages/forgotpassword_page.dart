@@ -200,7 +200,6 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 MyButton(
                     onTap: () => Navigator.pushNamed(context, '/login_page'),
                     text: "SUBMIT",
-
                     child: const Text(""))
               ],
             ),
