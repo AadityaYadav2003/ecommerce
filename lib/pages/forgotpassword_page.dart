@@ -1,5 +1,6 @@
 import 'package:ecommerce/components/my_button.dart';
 import 'package:ecommerce/components/my_textfield.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class ForgotpasswordPage extends StatefulWidget {
@@ -12,8 +13,7 @@ class ForgotpasswordPage extends StatefulWidget {
 class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpasswordController =
-      TextEditingController();
+  final TextEditingController confirmpasswordController = TextEditingController();
   bool _isVisible = false;
   bool _isPasswordEightCharacters = false;
   bool _hasPasswordOneNumber = false;
@@ -22,12 +22,44 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
     final numericRegex = RegExp(r'[0-9]');
 
     setState(() {
-      _isPasswordEightCharacters = false;
-      if (password.length >= 8) _isPasswordEightCharacters = true;
-
-      _hasPasswordOneNumber = false;
-      if (numericRegex.hasMatch(password)) _hasPasswordOneNumber = true;
+      _isPasswordEightCharacters = password.length >= 8;
+      _hasPasswordOneNumber = numericRegex.hasMatch(password);
     });
+  }
+
+  void _validateAndSubmit() {
+    if (!EmailValidator.validate(emailController.text.trim())) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Invalid Email"),
+          content: const Text("Please enter a valid email address"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } else if (passwordController.text != confirmpasswordController.text) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Password Mismatch"),
+          content: const Text("Passwords do not match"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Proceed with password reset or other logic
+      Navigator.pushNamed(context, '/login_page');
+    }
   }
 
   @override
@@ -45,30 +77,26 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                   "Set a Password",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   "Please create a secure password including the following criteria below.",
-                  style: TextStyle(
-                      fontSize: 16, height: 1.5, color: Colors.grey.shade600),
+                  style: TextStyle(fontSize: 16, height: 1.5, color: Colors.grey.shade600),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
+
                 // Email Textfield
                 MyTextField(
                   hintText: "Email",
                   obscureText: false,
                   controller: emailController,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                // Passowrd Textfield
+                const SizedBox(height: 10),
+
+                // Password Textfield
                 TextField(
                   onChanged: (password) => onPasswordChanged(password),
                   obscureText: !_isVisible,
+                  controller: passwordController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -77,33 +105,28 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                         });
                       },
                       icon: _isVisible
-                          ? const Icon(
-                              Icons.visibility,
-                              color: Colors.black,
-                            )
-                          : const Icon(
-                              Icons.visibility_off,
-                              color: Colors.grey,
-                            ),
+                          ? const Icon(Icons.visibility, color: Colors.black)
+                          : const Icon(Icons.visibility_off, color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black)),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black)),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
                     hintText: "Password",
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                //  Confirm Password
+                const SizedBox(height: 10),
+
+                // Confirm Password
                 TextField(
                   onChanged: (password) => onPasswordChanged(password),
                   obscureText: !_isVisible,
+                  controller: confirmpasswordController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -112,29 +135,24 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                         });
                       },
                       icon: _isVisible
-                          ? const Icon(
-                              Icons.visibility,
-                              color: Colors.black,
-                            )
-                          : const Icon(
-                              Icons.visibility_off,
-                              color: Colors.grey,
-                            ),
+                          ? const Icon(Icons.visibility, color: Colors.black)
+                          : const Icon(Icons.visibility_off, color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black)),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black)),
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
                     hintText: "Confirm Password",
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
+
+                // Password criteria indicators
                 Row(
                   children: [
                     AnimatedContainer(
@@ -142,30 +160,21 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                          color: _isPasswordEightCharacters
-                              ? Colors.green
-                              : Colors.transparent,
-                          border: _isPasswordEightCharacters
-                              ? Border.all(color: Colors.transparent)
-                              : Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(50)),
+                        color: _isPasswordEightCharacters ? Colors.green : Colors.transparent,
+                        border: _isPasswordEightCharacters
+                            ? Border.all(color: Colors.transparent)
+                            : Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                       child: const Center(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 15,
-                        ),
+                        child: Icon(Icons.check, color: Colors.white, size: 15),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const Text("Contains at least 8 characters")
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     AnimatedContainer(
@@ -173,34 +182,28 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                          color: _hasPasswordOneNumber
-                              ? Colors.green
-                              : Colors.transparent,
-                          border: _hasPasswordOneNumber
-                              ? Border.all(color: Colors.transparent)
-                              : Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(50)),
+                        color: _hasPasswordOneNumber ? Colors.green : Colors.transparent,
+                        border: _hasPasswordOneNumber
+                            ? Border.all(color: Colors.transparent)
+                            : Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                       child: const Center(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 15,
-                        ),
+                        child: Icon(Icons.check, color: Colors.white, size: 15),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const Text("Contains at least 1 number")
                   ],
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const SizedBox(height: 50),
+
+                // Submit button
                 MyButton(
-                    onTap: () => Navigator.pushNamed(context, '/login_page'),
-                    text: "SUBMIT",
-                    child: const Text(""))
+                  onTap: _validateAndSubmit,
+                  text: "SUBMIT",
+                  child: const Text(""),
+                ),
               ],
             ),
           ),
@@ -209,6 +212,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
     );
   }
 }
+
+
 
 // import 'package:ecommerce/components/my_button.dart';
 // import 'package:ecommerce/components/my_textfield.dart';
