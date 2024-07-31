@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:ecommerce/components/my_button.dart';
 import 'package:ecommerce/components/my_textfield.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ForgotpasswordPage extends StatefulWidget {
   const ForgotpasswordPage({Key? key}) : super(key: key);
@@ -13,7 +16,8 @@ class ForgotpasswordPage extends StatefulWidget {
 class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpasswordController = TextEditingController();
+  final TextEditingController confirmpasswordController =
+      TextEditingController();
   bool _isVisible = false;
   bool _isPasswordEightCharacters = false;
   bool _hasPasswordOneNumber = false;
@@ -27,39 +31,47 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
     });
   }
 
-  void _validateAndSubmit() {
+  void _validateAndSubmit() async {
     if (!EmailValidator.validate(emailController.text.trim())) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Invalid Email"),
-          content: const Text("Please enter a valid email address"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
-    } else if (passwordController.text != confirmpasswordController.text) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Password Mismatch"),
-          content: const Text("Passwords do not match"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
+      _showDialog("Invalid Email", "Please enter a valid email address");
     } else {
-      // Proceed with password reset or other logic
-      Navigator.pushNamed(context, '/login_page');
+      // Proceed with sending data to the backend
+      try {
+        final response = await http.post(
+          Uri.parse("https://ecommercebackend-o2fv.onrender.com/user/forgot"),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'email': emailController.text.trim(),
+            'oldPassword': passwordController.text.trim(),
+            'newPassword': confirmpasswordController.text.trim(),
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          Navigator.pushNamed(context, '/login_page');
+        } else {
+          _showDialog("Error", "Failed to reset password. Please try again.");
+        }
+      } catch (error) {
+        _showDialog("Error", "An error occurred. Please try again.");
+      }
     }
+  }
+
+  void _showDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -80,7 +92,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 const SizedBox(height: 10),
                 Text(
                   "Please create a secure password including the following criteria below.",
-                  style: TextStyle(fontSize: 16, height: 1.5, color: Colors.grey.shade600),
+                  style: TextStyle(
+                      fontSize: 16, height: 1.5, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 30),
 
@@ -106,7 +119,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       },
                       icon: _isVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
-                          : const Icon(Icons.visibility_off, color: Colors.grey),
+                          : const Icon(Icons.visibility_off,
+                              color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -117,7 +131,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       borderSide: const BorderSide(color: Colors.black),
                     ),
                     hintText: "Password",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -136,7 +151,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       },
                       icon: _isVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
-                          : const Icon(Icons.visibility_off, color: Colors.grey),
+                          : const Icon(Icons.visibility_off,
+                              color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -147,7 +163,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       borderSide: const BorderSide(color: Colors.black),
                     ),
                     hintText: "Confirm Password",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
                   ),
                 ),
                 const SizedBox(height: 30),
