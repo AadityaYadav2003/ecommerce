@@ -13,7 +13,8 @@ class ForgotpasswordPage extends StatefulWidget {
 class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpasswordController = TextEditingController();
+  final TextEditingController confirmpasswordController =
+      TextEditingController();
   bool _isVisible = false;
   bool _isPasswordEightCharacters = false;
   bool _hasPasswordOneNumber = false;
@@ -80,7 +81,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 const SizedBox(height: 10),
                 Text(
                   "Please create a secure password including the following criteria below.",
-                  style: TextStyle(fontSize: 16, height: 1.5, color: Colors.grey.shade600),
+                  style: TextStyle(
+                      fontSize: 16, height: 1.5, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 30),
 
@@ -106,7 +108,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       },
                       icon: _isVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
-                          : const Icon(Icons.visibility_off, color: Colors.grey),
+                          : const Icon(Icons.visibility_off,
+                              color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -117,7 +120,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       borderSide: const BorderSide(color: Colors.black),
                     ),
                     hintText: "Password",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -136,7 +140,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       },
                       icon: _isVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
-                          : const Icon(Icons.visibility_off, color: Colors.grey),
+                          : const Icon(Icons.visibility_off,
+                              color: Colors.grey),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -147,7 +152,8 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                       borderSide: const BorderSide(color: Colors.black),
                     ),
                     hintText: "Confirm Password",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
                   ),
                 ),
                 const SizedBox(height: 30),
