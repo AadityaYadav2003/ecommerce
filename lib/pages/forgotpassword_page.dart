@@ -219,7 +219,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 MyButton(
                   onTap: _validateAndSubmit,
                   text: "SUBMIT",
-                  child: const Text(""),
+                  child: const Text("Submit"),
                 ),
               ],
             ),
