@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ecommerce/components/my_button.dart';
 import 'package:ecommerce/components/my_textfield.dart';
 import 'package:email_validator/email_validator.dart';
@@ -18,7 +17,9 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpasswordController =
       TextEditingController();
-  bool _isVisible = false;
+
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
   bool _isPasswordEightCharacters = false;
   bool _hasPasswordOneNumber = false;
 
@@ -108,16 +109,16 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 // Password Textfield
                 TextField(
                   onChanged: (password) => onPasswordChanged(password),
-                  obscureText: !_isVisible,
+                  obscureText: !_isPasswordVisible,
                   controller: passwordController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          _isVisible = !_isVisible;
+                          _isPasswordVisible = !_isPasswordVisible;
                         });
                       },
-                      icon: _isVisible
+                      icon: _isPasswordVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
                           : const Icon(Icons.visibility_off,
                               color: Colors.grey),
@@ -140,16 +141,17 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
                 // Confirm Password
                 TextField(
                   onChanged: (password) => onPasswordChanged(password),
-                  obscureText: !_isVisible,
+                  obscureText: !_isConfirmPasswordVisible,
                   controller: confirmpasswordController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          _isVisible = !_isVisible;
+                          _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible;
                         });
                       },
-                      icon: _isVisible
+                      icon: _isConfirmPasswordVisible
                           ? const Icon(Icons.visibility, color: Colors.black)
                           : const Icon(Icons.visibility_off,
                               color: Colors.grey),
@@ -229,6 +231,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage> {
     );
   }
 }
+
 
 
 
