@@ -37,7 +37,7 @@ void main() async {
   );
 }
 
-/// To run app run command in terminal - flutter run -d chrome --web-renderer html
+/// To run app run command in terminal -  flutter run -d chrome --web-renderer html
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
